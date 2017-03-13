@@ -17,17 +17,15 @@ timer = 0
 url_source = "https://tcsailing.org//harbor//wp-content//themes//tcsc2017//countdown//timenow.php"
 
 
-while True:
-	
-	
-
-	user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'  #we need to fake a human other wise we get a 403 forbidden return
-	values = {'name': 'Leroy Jenkins',
+user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'  #we need to fake a human other wise we get a 403 forbidden return
+values = {'name': 'Leroy Jenkins',
           'location': 'Moon',
           'language': 'Elvish' }
-	headers = {'User-Agent': user_agent}
-	data = urllib.urlencode(values)
+headers = {'User-Agent': user_agent}
+data = urllib.urlencode(values)
 
+
+while True:	
 	#this is where the request is
 	req = urllib2.Request(url_source, data, headers)
 	response = urllib2.urlopen(req)
@@ -52,6 +50,3 @@ while True:
 	#sleeps the script for min
 	time.sleep(600)	
 
-
-
-#print timeLeft
