@@ -1,12 +1,9 @@
 # This is to return the current time from the TCSC clock
 #epoch convertor https://www.epochconverter.com/
 
-import urllib
-import urllib2
 import requests
 import time
 import webbrowser
-
 
 open_time = 1489579200
 #alert_time = 3000  # 10min warning
@@ -16,51 +13,33 @@ timer = 0
 
 
 #source URLS
-url_source = "https://tcsailing.org//harbor//wp-content//themes//tcsc2017//countdown//timenow.php"
 application_url = 'https://tcsailing.org/harbor/application//newmember-signup/'
 sailsignup_url = 'https://tcsailing.org/harbor/application/'
 
 
-#dummy data to make the server think it is being called by a human
-user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'  #we need to fake a human other wise we get a 403 forbidden return
-values = {'name': 'Leroy Jenkins',
-          'location': 'Moon',
-          'language': 'Elvish' }
-headers = {'User-Agent': user_agent}
-data = urllib.urlencode(values)
-
 #the meat of the call and service
 def main():
 	while True:
-		
-		#this is where the request is
-		req = urllib2.Request(url_source, data, headers)
-		response = urllib2.urlopen(req)
-		
-		#this is the return from timenow
-		timer = int(response.read())
 
-		#this checks how much time left
-		timeLeft = open_time - timer
+		currentTime = time.time()  #realized the site was just using epoch, so i just grab that instead
+		timeLeft = open_time - currentTime
 
 		if (timeLeft < alert_time):
 			print "its time"
 			print timeLeft
-			print timer
+			print currentTime
+
 			send_prowl_alert()
 			webbrowser.open_new(application_url)
 			webbrowser.open_new(sailsignup_url)
 
-
 		else:
-			print "Not there yet, it's still " 
+			print "Not there yet, it's still not time " 
 			print timeLeft
-			print timer
+			print currentTime
 
-
-		#sleeps the script for min
-		time.sleep(600)	
-
+		#sleeps the script for 5 sec
+		time.sleep(5)	
 
 #prowl notification
 def send_prowl_alert():
