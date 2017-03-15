@@ -10,6 +10,7 @@ open_time = 1489579200
 alert_time = 132600
 timeLeft = 0
 timer = 0 
+currentTime = 0
 
 
 #source URLS
